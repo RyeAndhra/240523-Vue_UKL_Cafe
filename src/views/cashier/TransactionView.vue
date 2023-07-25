@@ -43,12 +43,13 @@
                                         <td>{{ nomor + 1 }}</td>
                                         <td>{{ menu.nama_menu }}</td>
                                         <td>{{ menu.qty }}</td>
-                                        <td>{{ formatCurrency(menu.total) }}</td>
+                                        <td>{{ formatCurrency(menu.subtotal) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
+                        <hr>
+                        <h4>Total : {{ formatCurrency(total) }}</h4>
                     </div>
                     <br>
                     <div class="modal-footer">
@@ -128,12 +129,13 @@ export default {
             id_meja: {},
             nama_pelanggan: {},
             status: {},
+            total: {},
 
             detail: {},
             id_menu: {},
             qty: {},
             nama_menu: {},
-            total: {},
+            subtotal: {},
         }
     },
     methods: {
@@ -165,6 +167,7 @@ export default {
                     this.nomor_meja = response.data[0].nomor_meja
                     this.nama_pelanggan = response.data[0].nama_pelanggan
                     this.status = response.data[0].status
+                    this.total = response.data[0].total
                 }
             );
         },
@@ -195,8 +198,7 @@ export default {
         Logout() {
             var result = confirm("Are you sure you want to logout?");
             if (result) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('role')
+                localStorage.clear()
                 setTimeout(() => {
                     location.href = '/'
                 }, 500)

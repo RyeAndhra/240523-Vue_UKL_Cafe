@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save data</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
                 </div>
             </form>
         </div>
@@ -44,6 +44,8 @@ export default {
                     (response) => {
                         localStorage.setItem('token', response.data.token)
                         localStorage.setItem('role', response.data.role)
+                        localStorage.setItem('nama_user', response.data.nama_user)
+                        localStorage.setItem('id_user', response.data.id_user)
                         if (response.data.role === "Admin") {
                             location.href = '/Admin'
                         } else if (response.data.role === "Manajer") {

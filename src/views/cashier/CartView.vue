@@ -14,14 +14,6 @@
                     <form @submit.prevent="Checkout">
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Cashier</label>
-                                <select class="form-control" v-model="checkout.id_user">
-                                    <option v-for="kasir in filteredCashier" :key="kasir.id_user" :value="kasir.id_user">
-                                        {{ kasir.nama_user }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label>Table</label>
                                 <select class="form-control" v-model="checkout.id_meja">
                                     <option v-for="nomor in filteredTable" :key="nomor.id_meja" :value="nomor.id_meja">
@@ -115,10 +107,13 @@ export default {
         return {
             cart: [],
             user: [],
+            id_user: {},
+            nama_user: {},
             role: {},
             table: [],
             status: {},
             checkout: {},
+            total: {},
         }
     },
     methods: {
@@ -134,12 +129,13 @@ export default {
         },
         Checkout() {
             var data = {
-                // datapost: this.$store.getters.cartItems
                 cart: this.$store.getters.cartItems,
-                id_user: this.checkout.id_user,
+                id_user: localStorage.getItem('id_user'),
                 id_meja: this.checkout.id_meja,
-                nama_pelanggan: this.checkout.nama_pelanggan
+                nama_pelanggan: this.checkout.nama_pelanggan,
+                total: this.$store.getters.cartTotal,
             }
+            console.log(this.$store.getters.cartTotal)
             axios.post('http://localhost:8000/api/createtransaksi', data).then(response => {
                 if (response.data.status) {
                     alert('Success! Your checkout process was successful.')
@@ -174,8 +170,7 @@ export default {
         Logout() {
             var result = confirm("Are you sure you want to logout?");
             if (result) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('role')
+                localStorage.clear()
                 setTimeout(() => {
                     location.href = '/'
                 }, 500)

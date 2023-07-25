@@ -89,9 +89,11 @@
                 </div>
                 <br>
                 <div class="col-md-12 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="text-center mt-4">
-                        <div style="display: inline-block; width: 300px; height: 300px;">
-                            <canvas id="piechart" width="300" height="300"></canvas>
+                    <div class="feature-thumb">
+                        <div class="text-center mt-4">
+                            <div style="display: inline-block; width: 350px; height: 350px;">
+                                <canvas id="piechart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -190,7 +192,7 @@ export default {
                 (response) => {
                     console.log(response)
                     const data = response.data.map(item => item.jumlah_pesan)
-                    const nama = response.data.map(item => item.nama_menu)
+                    const nama_menu = response.data.map(item => item.nama_menu)
 
                     let colors = []
                     for (let i = 0; i < data.length; i++) {
@@ -199,7 +201,7 @@ export default {
                     }
 
                     const chartData = {
-                        labels: nama,
+                        labels: nama_menu,
                         datasets: [{
                             data: data,
                             backgroundColor: colors
@@ -211,22 +213,17 @@ export default {
                         labels: 'Data Menu',
                         data: chartData,
                         options: {
-                            responsive: true
+                            responsive: true,
+                            title: {
+                                display: true,
+                                text: 'My Chart Title'
+                            },
+                            legend: {
+                                position: 'right' // or 'left'
+                            }
                         }
                     })
                 })
-            .catch(
-                err => {
-                    console.log(err)
-                }
-            )
-    },
-    computed: {
-        filteredTransactions() {
-            const status = 'Pending';
-            return this.transaction.filter(t => t.status === status);
-        }
     }
-
 }
 </script>

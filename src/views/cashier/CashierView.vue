@@ -177,8 +177,7 @@ export default {
         Logout() {
             var result = confirm("Are you sure you want to logout?");
             if (result) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('role')
+                localStorage.clear()
                 setTimeout(() => {
                     location.href = '/'
                 }, 500)

@@ -43,17 +43,18 @@
                                         <td>{{ nomor + 1 }}</td>
                                         <td>{{ menu.nama_menu }}</td>
                                         <td>{{ menu.qty }}</td>
-                                        <td>{{ formatCurrency(menu.total) }}</td>
+                                        <td>{{ formatCurrency(menu.subtotal) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
+                        <hr>
+                        <h4>Total : {{ formatCurrency(total) }}</h4>
                     </div>
                     <br>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="printReceipt">Print Receipt</button>
+                        <button type="button" class="btn btn-primary" @click="printReceipt()">Print Receipt</button>
                     </div>
                 </div>
             </div>
@@ -132,12 +133,13 @@ export default {
             id_meja: {},
             nama_pelanggan: {},
             status: {},
+            total: {},
 
             detail: [],
             id_menu: {},
             qty: {},
             nama_menu: {},
-            total: {},
+            subtotal: {},
         }
     },
     methods: {
@@ -168,6 +170,7 @@ export default {
                     this.nomor_meja = response.data[0].nomor_meja
                     this.nama_pelanggan = response.data[0].nama_pelanggan
                     this.status = response.data[0].status
+                    this.total = response.data[0].total
                 }
             );
         },
@@ -206,14 +209,25 @@ export default {
             }
         },
         printReceipt() {
+            const modalContent = document.querySelector('#detailTransaction .modal-content').innerHTML;
+
+            // Simpan isi body dari halaman saat ini untuk dicetak nanti
+            const originalBody = document.body.innerHTML;
+
+            // Menyiapkan halaman baru hanya dengan konten modal yang ingin dicetak
+            document.body.innerHTML = modalContent;
+
+            // Lakukan pencetakan
             window.print();
+
+            // Kembalikan isi body asli setelah pencetakan selesai
+            document.body.innerHTML = originalBody;
         },
 
         Logout() {
             var result = confirm("Are you sure you want to logout?");
             if (result) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('role')
+                localStorage.clear()
                 setTimeout(() => {
                     location.href = '/'
                 }, 500)
