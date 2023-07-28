@@ -100,7 +100,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="t in filteredTransactions" :key="t.id_transaksi">
+                        <tr v-for="t in paginatedTransactions" :key="t.id_transaksi">
                             <td>{{ t.id_transaksi }}</td>
                             <td>{{ t.nama_user }}</td>
                             <td>{{ t.nama_pelanggan }}</td>
@@ -115,6 +115,28 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center mt-3">
+                    <nav aria-label="Page navigation">
+                        <ul class="social-icon">
+                            <li v-if="currentPage > 1" class="page-item">
+                                <a href="#" @click="firstPage" class="fa fa-angle-double-left"></a>
+                            </li>
+                            <li v-if="currentPage > 1" class="page-item">
+                                <a href="#" @click="previousPage" class="fa fa-angle-left"></a>
+                            </li>
+                            <li v-for="page in Math.ceil(filteredTransactions.length / itemsPerPage)" :key="page"
+                                class="page-item"><a href="#" @click="goToPage(page)" class="fa">{{ page }}</a>
+                            </li>
+                            <li v-if="currentPage < Math.ceil(filteredTransactions.length / itemsPerPage)"
+                                class="page-item"><a href="#" @click="nextPage" class="fa fa-angle-right"></a>
+                            </li>
+                            <li v-if="currentPage < Math.ceil(filteredTransactions.length / itemsPerPage)"
+                                class="page-item">
+                                <a href="#" @click="lastPage" class="fa fa-angle-double-right"></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
@@ -140,6 +162,9 @@ export default {
             qty: {},
             nama_menu: {},
             subtotal: {},
+
+            currentPage: 1,
+            itemsPerPage: 7,
         }
     },
     methods: {
@@ -215,6 +240,27 @@ export default {
             window.print();
             document.body.innerHTML = originalBody;
         },
+        firstPage() {
+            this.currentPage = 1;
+        },
+        nextPage() {
+            if (this.currentPage < Math.ceil(this.filteredTransactions.length / this.itemsPerPage)) {
+                this.currentPage++;
+            }
+        },
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+        goToPage(page) {
+            if (page >= 1 && page <= Math.ceil(this.filteredTransactions.length / this.itemsPerPage)) {
+                this.currentPage = page;
+            }
+        },
+        lastPage() {
+            this.currentPage = Math.ceil(this.filteredTransactions.length / this.itemsPerPage);
+        },
 
         Logout() {
             var result = confirm("Are you sure you want to logout?");
@@ -235,8 +281,22 @@ export default {
         filteredTransactions() {
             const status = 'Lunas';
             return this.transaction.filter(t => t.status === status && t.nama_user === localStorage.getItem('nama_user'));
+        },
+        totalPages() {
+            return Math.ceil(this.filteredTransactions.length / this.itemsPerPage);
+        },
+        paginatedTransactions() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            return this.filteredTransactions.slice(startIndex, startIndex + this.itemsPerPage);
         }
-    }
+    },
+    watch: {
+        currentPage(newValue) {
+            if (newValue >= 1 && newValue <= this.totalPages) {
+                this.currentPage = newValue;
+            }
+        }
+    },
 }
 </script>
 
