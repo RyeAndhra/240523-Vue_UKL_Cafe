@@ -213,7 +213,7 @@ export default {
     computed: {
         filteredTransactions() {
             const status = 'Pending';
-            return this.transaction.filter(t => t.status === status);
+            return this.transaction.filter(t => t.status === status && t.nama_user === localStorage.getItem('nama_user'));
         }
     }
 

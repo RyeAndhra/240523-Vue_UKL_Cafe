@@ -210,17 +210,9 @@ export default {
         },
         printReceipt() {
             const modalContent = document.querySelector('#detailTransaction .modal-content').innerHTML;
-
-            // Simpan isi body dari halaman saat ini untuk dicetak nanti
             const originalBody = document.body.innerHTML;
-
-            // Menyiapkan halaman baru hanya dengan konten modal yang ingin dicetak
             document.body.innerHTML = modalContent;
-
-            // Lakukan pencetakan
             window.print();
-
-            // Kembalikan isi body asli setelah pencetakan selesai
             document.body.innerHTML = originalBody;
         },
 
@@ -242,7 +234,7 @@ export default {
     computed: {
         filteredTransactions() {
             const status = 'Lunas';
-            return this.transaction.filter(t => t.status === status);
+            return this.transaction.filter(t => t.status === status && t.nama_user === localStorage.getItem('nama_user'));
         }
     }
 }
@@ -250,30 +242,6 @@ export default {
 
 <style>
 @media print {
-    .modal-dialog {
-        max-width: 100%;
-    }
-
-    .modal-content {
-        border: none;
-    }
-
-    .modal-body {
-        padding: 0;
-    }
-
-    .table {
-        width: 100%;
-        margin-bottom: 10px;
-        border-collapse: collapse;
-    }
-
-    .table th,
-    .table td {
-        padding: 5px;
-        border: 1px solid #000;
-    }
-
     .modal-footer {
         display: none;
     }

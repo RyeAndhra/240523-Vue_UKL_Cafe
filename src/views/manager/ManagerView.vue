@@ -73,7 +73,7 @@
                         </div>
                         <h3>Today's Income</h3>
                         <p v-if="totalIncome > 0">{{ formatCurrency(totalIncome) }}</p>
-                        <p v-else>Loading...</p>
+                        <p v-else>No Transactions Recorded Today</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -85,6 +85,18 @@
                         <p v-if="filteredIncome > 0">{{ formatCurrency(filteredIncome) }}</p>
                         <p v-else-if="filteredIncome === 0">No income found</p>
                         <p v-else>Loading...</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="feature-thumb">
+                        <h3>Print Daily Report</h3>
+                        <button class="btn btn-default" @click="printDailyReport()">Print</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="feature-thumb">
+                        <h3>Print Monthly Report</h3>
+                        <button class="btn btn-default" @click="printMonthlyReport()">Print</button>
                     </div>
                 </div>
                 <br>
