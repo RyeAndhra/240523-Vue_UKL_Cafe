@@ -87,7 +87,7 @@
                         <p v-else>Loading...</p>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                <!-- <div class="col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="feature-thumb">
                         <h3>Print Daily Report</h3>
                         <button class="btn btn-default" @click="printDailyReport()">Print</button>
@@ -98,7 +98,7 @@
                         <h3>Print Monthly Report</h3>
                         <button class="btn btn-default" @click="printMonthlyReport()">Print</button>
                     </div>
-                </div>
+                </div> -->
                 <br>
                 <div class="col-md-12 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="feature-thumb">
@@ -122,6 +122,8 @@ export default {
     data() {
         return {
             transaction: [],
+            dailyTransaction: [],
+            monthlyTransaction: [],
             tgl_transaksi: {},
             id_user: {},
 
@@ -164,6 +166,46 @@ export default {
                     console.error(error);
                 });
         },
+        GetDailyTransaction() {
+            const currentDate = new Date().toISOString().split('T')[0];
+            axios.get('http://localhost:8000/api/dailyTransaction/' + currentDate).then(
+                ({ data }) => {
+                    console.log(data);
+                    this.dailyTransaction = data
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        printDailyReport() {
+            this.GetTotalIncomeToday()
+            this.GetDailyTransaction()
+        },
+        GetTotalIncomeThisMonth() {
+            const currentDate = new Date().toISOString().split('T')[0];
+            axios.get('http://localhost:8000/api/incomeThisMonth/' + currentDate)
+                .then(response => {
+                    this.totalIncome = response.data.total_income_this_month;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        GetMonthlyTransaction() {
+            const currentDate = new Date().toISOString().split('T')[0];
+            axios.get('http://localhost:8000/api/monthlyTransaction/' + currentDate).then(
+                ({ data }) => {
+                    console.log(data);
+                    this.monthlyTransaction = data
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        printMonthlyReport() {
+            this.GetTotalIncomeThisMonth()
+            this.GetMonthlyTransaction()
+        },
         filterIncome() {
             const filters = {};
             if (this.selectedDate) {
@@ -186,13 +228,10 @@ export default {
         Logout() {
             var result = confirm("Are you sure you want to logout?");
             if (result) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('role')
+                localStorage.clear()
                 setTimeout(() => {
                     location.href = '/'
                 }, 500)
-            } else {
-                alert('Your data is safe!')
             }
         }
     },

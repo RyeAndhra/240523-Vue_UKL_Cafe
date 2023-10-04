@@ -388,7 +388,7 @@
 
                 <div class="clearfix"></div>
 
-                <div v-for="u in user" :key="u.id_user" class="col-md-3 col-sm-6 wow fadeInUp" data-wow-delay="0.9s">
+                <div v-for="u in user" :key="u.id_user" class="col-md-3 col-sm-6">
                     <div class="team-thumb">
                         <img v-if="u.role == 'Admin'" src="frontend/images/admin-img.jpg" class="img-responsive" alt="Team">
                         <img v-else-if="u.role == 'Manajer'" src="frontend/images/manager-img.jpg" class="img-responsive"
@@ -406,9 +406,7 @@
                     </div>
                 </div>
 
-                <div class="clearfix"></div>
-
-                <div class="col-md-3 col-sm-6 wow fadeInUp" data-wow-delay="1.1s">
+                <div class="col-md-3 col-sm-6 wow fadeInUp" data-wow-delay="0.6s">
                     <div class="join-team">
                         <i class="fa fa-plus"></i>
                         <p>Create, Read, Update, Delete for User's Data.</p>
@@ -780,13 +778,10 @@ export default {
         Logout() {
             var result = confirm("Are you sure you want to logout?");
             if (result) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('role')
+                localStorage.clear()
                 setTimeout(() => {
                     location.href = '/'
                 }, 500)
-            } else {
-                alert('Your data is safe!')
             }
         }
     }
