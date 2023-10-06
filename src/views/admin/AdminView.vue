@@ -406,9 +406,7 @@
                     </div>
                 </div>
 
-                <div class="clearfix"></div>
-
-                <div class="col-md-3 col-sm-6 wow fadeInUp" data-wow-delay="0.9s">
+                <div class="col-md-3 col-sm-6 wow fadeInUp" data-wow-delay="1.1s">
                     <div class="join-team">
                         <i class="fa fa-plus"></i>
                         <p>Create, Read, Update, Delete for User's Data.</p>
