@@ -269,8 +269,6 @@ export default {
                 setTimeout(() => {
                     location.href = '/'
                 }, 500)
-            } else {
-                alert('Your data is safe!')
             }
         }
     },

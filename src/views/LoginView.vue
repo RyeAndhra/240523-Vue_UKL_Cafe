@@ -8,11 +8,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>Username</label>
-                        <input type="text" class="form-control" v-model="username">
+                        <input type="text" class="form-control" required v-model="username">
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" class="form-control" v-model="password">
+                        <input type="password" class="form-control" required v-model="password">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -58,6 +58,7 @@ export default {
                 .catch(
                     (error) => {
                         console.log(error)
+                        alert('Wrong password!')
                     }
                 )
         }
@@ -81,5 +82,10 @@ export default {
 .login-form {
     max-width: 300px;
     width: 100%;
+}
+
+.error-text {
+  color: red;
+  font-size: 14px;
 }
 </style>

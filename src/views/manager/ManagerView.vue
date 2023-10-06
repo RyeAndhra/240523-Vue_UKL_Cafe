@@ -87,7 +87,7 @@
                         <p v-else>Loading...</p>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                <!-- <div class="col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="feature-thumb">
                         <h3>Print Daily Report</h3>
                         <button class="btn btn-default" @click="printDailyReport()">Print</button>
@@ -98,7 +98,7 @@
                         <h3>Print Monthly Report</h3>
                         <button class="btn btn-default" @click="printMonthlyReport()">Print</button>
                     </div>
-                </div>
+                </div> -->
                 <br>
                 <div class="col-md-12 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="feature-thumb">
@@ -186,13 +186,10 @@ export default {
         Logout() {
             var result = confirm("Are you sure you want to logout?");
             if (result) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('role')
+                localStorage.clear()
                 setTimeout(() => {
                     location.href = '/'
                 }, 500)
-            } else {
-                alert('Your data is safe!')
             }
         }
     },
