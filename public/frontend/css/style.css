@@ -421,7 +421,7 @@ a:focus {
 #team .team-thumb {
   width: 100%;
   position: relative;
-  padding-top: 10%;
+  margin-top: 10%;
 }
 
 #team .team-des {
